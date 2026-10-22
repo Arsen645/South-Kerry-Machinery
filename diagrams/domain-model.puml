@@ -1,0 +1,108 @@
+@startuml
+title South Kerry Machinery Sharing System - Conceptual Domain Model
+hide methods
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class Member {
+  memberID
+  name
+  farmName
+  contactDetails
+  membershipStatus
+}
+class MemberDocument {
+  documentType
+  expiryDate
+  status
+  memberID
+}
+
+class EquipmentCategory {
+  categoryID
+  categoryName
+  requiredDocumentTypes
+  
+}
+class Machine {
+  machineID
+  equipmentType
+  usageMeasure
+  currentUsage
+  status
+}
+class Attachment {
+  attachmentID
+  attachmentType
+  status
+}
+class Reservation {
+  reservationID
+  status
+  startDate
+  endDate
+  earliestStart
+  latestEnd
+  collectionArrangement
+  memberID
+}
+
+class CollectionRecord {
+  recordID
+  collectionDate
+  collectedBy
+  checksCompleted
+  usageReading
+}
+class ExtensionRequest {
+  requestID
+  requestedEndDate
+  status
+  decidedBy
+  memberID
+  reservationID
+}
+class ReturnRecord {
+  returnRecordID
+  returnDate
+  condition
+  endUsageReading
+  fuelLevel
+  cleanliness
+  reportedIssues
+  outcome
+}
+class FaultReport {
+  reportID
+  reportDate
+  source
+  symptoms
+  evidence
+  cause
+  status
+}
+class MaintenanceTask {
+  taskID
+  triggerType
+  plannedDate
+  partsNeeded
+  provisionalCompletionDate
+  status
+}
+
+Member "1" -- "0..*" MemberDocument : holds
+EquipmentCategory "1" -- "0..*" Machine : classifies
+Member "1" -- "0..*" Reservation : makes
+Reservation "0..*" -- "1" Machine : reserves
+Reservation "0..*" -- "0..*" Attachment : includes
+Machine "0..*" -- "0..*" Attachment : is fitted with
+Reservation "1" -- "0..1" CollectionRecord : is handed over in
+Reservation "1" -- "0..*" ExtensionRequest : may be extended by
+Reservation "1" -- "0..1" ReturnRecord : ends with
+
+ReturnRecord "0..1" -- "0..*" FaultReport : may lead to
+FaultReport "0..*" -- "0..1" Machine : affects
+FaultReport "0..*" -- "0..1" Attachment : affects
+FaultReport "0..1" -- "0..*" MaintenanceTask : leads to
+MaintenanceTask "0..*" -- "0..1" Machine : is carried out on
+MaintenanceTask "0..*" -- "0..1" Attachment : is carried out on

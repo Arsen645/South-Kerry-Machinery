@@ -1,0 +1,46 @@
+@startuml
+left to right direction
+title South Kerry Machinery Sharing System
+
+actor "Member" as MEM
+actor "Coordinator" as COO
+actor "Stores Worker" as STO
+actor "Maintenance Worker" as MNT
+
+rectangle "SKMSS" {
+  usecase "Manage Member Eligibility" as UC01
+  usecase "Check Availability" as UC02
+  usecase "Submit Reservation Request" as UC03
+  usecase "Confirm Reservation" as UC04
+  usecase "Resolve Competing Requests" as UC05
+  usecase "Manage Machine and Attachment Register" as UC06
+  usecase "Collect Equipment" as UC07
+  usecase "Request Extension" as UC08
+  usecase "Decide Extension" as UC09
+  usecase "Record Equipment Return" as UC10
+  usecase "Report Fault" as UC11
+  usecase "Plan and Record Maintenance" as UC12
+  usecase "Return Equipment to Service" as UC13
+  usecase "Monitor Operations" as UC14
+}
+
+MEM --> UC02
+MEM --> UC03
+MEM --> UC08
+MEM --> UC11
+
+COO --> UC01
+COO --> UC04
+COO --> UC05
+COO --> UC06
+COO --> UC09
+COO --> UC14
+
+STO --> UC07
+STO --> UC10
+STO --> UC11
+
+MNT --> UC12
+MNT --> UC13
+MNT --> UC11
+@enduml
